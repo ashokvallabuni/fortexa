@@ -39,6 +39,7 @@ import { Route as ApiDemoRouteImport } from './routes/api/demo'
 import { Route as ApiGraphRouteImport } from './routes/api/graph'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiUploadsRouteImport } from './routes/api/uploads'
+import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
 import { Route as ApiNetworkFlowsRouteImport } from './routes/api/network.flows'
 import { Route as ApiNetworkStatesRouteImport } from './routes/api/network.states'
 import { Route as ApiUploadsIdRouteImport } from './routes/api/uploads.$id'
@@ -192,6 +193,11 @@ const ApiUploadsRoute = ApiUploadsRouteImport.update({
   path: '/api/uploads',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthCallbackRoute = AuthCallbackRouteImport.update({
+  id: '/auth/callback',
+  path: '/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiNetworkFlowsRoute = ApiNetworkFlowsRouteImport.update({
   id: '/api/network/flows',
   path: '/api/network/flows',
@@ -238,6 +244,7 @@ export interface FileRoutesByFullPath {
   '/api/graph': typeof ApiGraphRoute
   '/api/health': typeof ApiHealthRoute
   '/api/uploads': typeof ApiUploadsRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
   '/api/network/flows': typeof ApiNetworkFlowsRoute
   '/api/network/states': typeof ApiNetworkStatesRoute
   '/api/uploads/$id': typeof ApiUploadsIdRoute
@@ -272,6 +279,7 @@ export interface FileRoutesByTo {
   '/api/graph': typeof ApiGraphRoute
   '/api/health': typeof ApiHealthRoute
   '/api/uploads': typeof ApiUploadsRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
   '/api/network/flows': typeof ApiNetworkFlowsRoute
   '/api/network/states': typeof ApiNetworkStatesRoute
   '/api/uploads/$id': typeof ApiUploadsIdRoute
@@ -308,6 +316,7 @@ export interface FileRoutesById {
   '/api/graph': typeof ApiGraphRoute
   '/api/health': typeof ApiHealthRoute
   '/api/uploads': typeof ApiUploadsRouteWithChildren
+  '/auth/callback': typeof AuthCallbackRoute
   '/api/network/flows': typeof ApiNetworkFlowsRoute
   '/api/network/states': typeof ApiNetworkStatesRoute
   '/api/uploads/$id': typeof ApiUploadsIdRoute
@@ -344,6 +353,7 @@ export interface FileRouteTypes {
     | '/api/graph'
     | '/api/health'
     | '/api/uploads'
+    | '/auth/callback'
     | '/api/network/flows'
     | '/api/network/states'
     | '/api/uploads/$id'
@@ -378,6 +388,7 @@ export interface FileRouteTypes {
     | '/api/graph'
     | '/api/health'
     | '/api/uploads'
+    | '/auth/callback'
     | '/api/network/flows'
     | '/api/network/states'
     | '/api/uploads/$id'
@@ -413,6 +424,7 @@ export interface FileRouteTypes {
     | '/api/graph'
     | '/api/health'
     | '/api/uploads'
+    | '/auth/callback'
     | '/api/network/flows'
     | '/api/network/states'
     | '/api/uploads/$id'
@@ -429,6 +441,7 @@ export interface RootRouteChildren {
   ApiGraphRoute: typeof ApiGraphRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiUploadsRoute: typeof ApiUploadsRouteWithChildren
+  AuthCallbackRoute: typeof AuthCallbackRoute
   ApiNetworkFlowsRoute: typeof ApiNetworkFlowsRoute
   ApiNetworkStatesRoute: typeof ApiNetworkStatesRoute
 }
@@ -645,6 +658,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiUploadsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/callback': {
+      id: '/auth/callback'
+      path: '/auth/callback'
+      fullPath: '/auth/callback'
+      preLoaderRoute: typeof AuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/network/flows': {
       id: '/api/network/flows'
       path: '/api/network/flows'
@@ -740,6 +760,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiGraphRoute: ApiGraphRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiUploadsRoute: ApiUploadsRouteWithChildren,
+  AuthCallbackRoute: AuthCallbackRoute,
   ApiNetworkFlowsRoute: ApiNetworkFlowsRoute,
   ApiNetworkStatesRoute: ApiNetworkStatesRoute,
 }

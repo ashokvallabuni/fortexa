@@ -5,8 +5,13 @@ import { supabase } from '@/integrations/supabase/client';
 
 export const Route = createFileRoute('/_app')({
   beforeLoad: async () => {
-    const { data } = await supabase.auth.getSession();
-    if (!data.session) throw redirect({ to: '/login' });
+    try {
+      const { data } = await supabase.auth.getSession();
+      if (!data.session) throw redirect({ to: '/login' });
+    } catch (error) {
+      if (error && typeof error === 'object' && 'isRedirect' in error) throw error;
+      throw redirect({ to: '/login' });
+    }
   },
   component: AppShell,
 });
