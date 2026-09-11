@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from '@/lib/router-compat';
 import { Activity, ArrowRight, CheckCircle2, Network, RefreshCw, ShieldAlert } from 'lucide-react';
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { analyticsService } from '@/services/analyticsService';
+import { apiClient } from '@/api/client';
 import { DEMO_ALERTS, DEMO_FEATURE_CONTRIBUTIONS, DEMO_FORECAST, DEMO_GRAPH_EDGES, DEMO_GRAPH_NODES } from '@/data/mockData';
 
 const forecastData = Array.from({ length: 12 }, (_, index) => ({
@@ -39,7 +39,7 @@ export function RealDashboard() {
   const [selectedNode, setSelectedNode] = useState('n1');
   const [refreshing, setRefreshing] = useState(false);
 
-  const checkApi = async () => { setRefreshing(true); setApiState('checking'); try { await analyticsService.getTrafficSummary(); setApiState('live'); setApiMessage('Live FastAPI analytics connected'); } catch (error) { setApiState('fallback'); setApiMessage(error instanceof Error ? `${error.message} Showing demo intelligence.` : 'API unavailable. Showing demo intelligence.'); } finally { setRefreshing(false); } };
+  const checkApi = async () => { setRefreshing(true); setApiState('checking'); try { await apiClient.get('/api/health'); setApiState('live'); setApiMessage('Supabase database and API connected'); } catch (error) { setApiState('fallback'); setApiMessage(error instanceof Error ? `${error.message} Showing demo intelligence.` : 'Supabase API unavailable. Showing demo intelligence.'); } finally { setRefreshing(false); } };
   useEffect(() => { void checkApi(); }, []);
 
   return <main className="min-h-full bg-[var(--background)] px-4 py-6 text-[var(--foreground)] md:px-7 lg:px-8"><div className="mx-auto max-w-[1500px] space-y-6">

@@ -7,7 +7,6 @@ Copy `.env.example` to the deployment environment and set:
 - `SUPABASE_URL` and `VITE_SUPABASE_URL`
 - `SUPABASE_PUBLISHABLE_KEY` or `SUPABASE_ANON_KEY` for browser requests
 - `SUPABASE_SERVICE_ROLE_KEY` only in the server/runtime environment
-- `VITE_API_URL` when the Python analytics service is deployed separately
 
 Never expose `SUPABASE_SERVICE_ROLE_KEY` through `VITE_*` variables or client code.
 
@@ -73,16 +72,10 @@ bun install --frozen-lockfile
 bun run dev
 ```
 
-For the Python analytics service:
-
-```powershell
-.venv\Scripts\python.exe -m uvicorn backend.main:app --reload --port 8000
-```
-
 ## Production deployment
 
 1. Configure server-only Supabase variables in the hosting provider.
-2. Configure browser-safe `VITE_SUPABASE_*` variables.
+2. Configure browser-safe `VITE_SUPABASE_*` variables for project `amrzlzjxwonyzuhncdfk`.
 3. Run `supabase db push` against the target project.
 4. Enable the Auth providers and redirect URLs.
 5. Verify the private Storage bucket exists.

@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as AppAlertsRouteImport } from './routes/_app/alerts'
 import { Route as AppAdminRouteImport } from './routes/_app/admin'
+import { Route as AppAlertsRouteImport } from './routes/_app/alerts'
 import { Route as AppAttackTimelineRouteImport } from './routes/_app/attack-timeline'
 import { Route as AppCopilotRouteImport } from './routes/_app/copilot'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
@@ -24,19 +24,20 @@ import { Route as AppForecastRouteImport } from './routes/_app/forecast'
 import { Route as AppGraphRouteImport } from './routes/_app/graph'
 import { Route as AppIngestionRouteImport } from './routes/_app/ingestion'
 import { Route as AppNetworkRouteImport } from './routes/_app/network'
-import { Route as AppReportsRouteImport } from './routes/_app/reports'
-import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppNetworkSecurityRouteImport } from './routes/_app/network-security'
+import { Route as AppReportsRouteImport } from './routes/_app/reports'
 import { Route as AppResearchRouteImport } from './routes/_app/research'
 import { Route as AppSecurityRouteImport } from './routes/_app/security'
+import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppSocRouteImport } from './routes/_app/soc'
-import { Route as AppWorldModelRouteImport } from './routes/_app/world-model'
 import { Route as AppWorkspaceRouteImport } from './routes/_app/workspace'
-import { Route as ApiAlertsRouteImport } from './routes/api/alerts'
+import { Route as AppWorldModelRouteImport } from './routes/_app/world-model'
 import { Route as ApiAdminRouteImport } from './routes/api/admin'
+import { Route as ApiAlertsRouteImport } from './routes/api/alerts'
 import { Route as ApiDatasetsRouteImport } from './routes/api/datasets'
 import { Route as ApiDemoRouteImport } from './routes/api/demo'
 import { Route as ApiGraphRouteImport } from './routes/api/graph'
+import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as ApiUploadsRouteImport } from './routes/api/uploads'
 import { Route as ApiNetworkFlowsRouteImport } from './routes/api/network.flows'
 import { Route as ApiNetworkStatesRouteImport } from './routes/api/network.states'
@@ -56,14 +57,14 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AppAlertsRoute = AppAlertsRouteImport.update({
-  id: '/alerts',
-  path: '/alerts',
-  getParentRoute: () => AppRoute,
-} as any)
 const AppAdminRoute = AppAdminRouteImport.update({
   id: '/admin',
   path: '/admin',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppAlertsRoute = AppAlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
   getParentRoute: () => AppRoute,
 } as any)
 const AppAttackTimelineRoute = AppAttackTimelineRouteImport.update({
@@ -116,9 +117,24 @@ const AppNetworkRoute = AppNetworkRouteImport.update({
   path: '/network',
   getParentRoute: () => AppRoute,
 } as any)
+const AppNetworkSecurityRoute = AppNetworkSecurityRouteImport.update({
+  id: '/network-security',
+  path: '/network-security',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppReportsRoute = AppReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppResearchRoute = AppResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSecurityRoute = AppSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
   getParentRoute: () => AppRoute,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
@@ -126,24 +142,29 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AppRoute,
 } as any)
-const AppNetworkSecurityRoute = AppNetworkSecurityRouteImport.update({ id: '/network-security', path: '/network-security', getParentRoute: () => AppRoute } as any)
-const AppResearchRoute = AppResearchRouteImport.update({ id: '/research', path: '/research', getParentRoute: () => AppRoute } as any)
-const AppSecurityRoute = AppSecurityRouteImport.update({ id: '/security', path: '/security', getParentRoute: () => AppRoute } as any)
-const AppSocRoute = AppSocRouteImport.update({ id: '/soc', path: '/soc', getParentRoute: () => AppRoute } as any)
+const AppSocRoute = AppSocRouteImport.update({
+  id: '/soc',
+  path: '/soc',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppWorkspaceRoute = AppWorkspaceRouteImport.update({
+  id: '/workspace',
+  path: '/workspace',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppWorldModelRoute = AppWorldModelRouteImport.update({
   id: '/world-model',
   path: '/world-model',
   getParentRoute: () => AppRoute,
 } as any)
-const AppWorkspaceRoute = AppWorkspaceRouteImport.update({ id: '/workspace', path: '/workspace', getParentRoute: () => AppRoute } as any)
-const ApiAlertsRoute = ApiAlertsRouteImport.update({
-  id: '/api/alerts',
-  path: '/api/alerts',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiAdminRoute = ApiAdminRouteImport.update({
   id: '/api/admin',
   path: '/api/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAlertsRoute = ApiAlertsRouteImport.update({
+  id: '/api/alerts',
+  path: '/api/alerts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiDatasetsRoute = ApiDatasetsRouteImport.update({
@@ -159,6 +180,11 @@ const ApiDemoRoute = ApiDemoRouteImport.update({
 const ApiGraphRoute = ApiGraphRouteImport.update({
   id: '/api/graph',
   path: '/api/graph',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiHealthRoute = ApiHealthRouteImport.update({
+  id: '/api/health',
+  path: '/api/health',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiUploadsRoute = ApiUploadsRouteImport.update({
@@ -185,11 +211,6 @@ const ApiUploadsIdRoute = ApiUploadsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/network-security': typeof AppNetworkSecurityRoute
-  '/research': typeof AppResearchRoute
-  '/security': typeof AppSecurityRoute
-  '/soc': typeof AppSocRoute
-  '/workspace': typeof AppWorkspaceRoute
   '/admin': typeof AppAdminRoute
   '/alerts': typeof AppAlertsRoute
   '/attack-timeline': typeof AppAttackTimelineRoute
@@ -202,14 +223,20 @@ export interface FileRoutesByFullPath {
   '/graph': typeof AppGraphRoute
   '/ingestion': typeof AppIngestionRoute
   '/network': typeof AppNetworkRoute
+  '/network-security': typeof AppNetworkSecurityRoute
   '/reports': typeof AppReportsRoute
+  '/research': typeof AppResearchRoute
+  '/security': typeof AppSecurityRoute
   '/settings': typeof AppSettingsRoute
+  '/soc': typeof AppSocRoute
+  '/workspace': typeof AppWorkspaceRoute
   '/world-model': typeof AppWorldModelRoute
-  '/api/alerts': typeof ApiAlertsRoute
   '/api/admin': typeof ApiAdminRoute
+  '/api/alerts': typeof ApiAlertsRoute
   '/api/datasets': typeof ApiDatasetsRoute
   '/api/demo': typeof ApiDemoRoute
   '/api/graph': typeof ApiGraphRoute
+  '/api/health': typeof ApiHealthRoute
   '/api/uploads': typeof ApiUploadsRouteWithChildren
   '/api/network/flows': typeof ApiNetworkFlowsRoute
   '/api/network/states': typeof ApiNetworkStatesRoute
@@ -218,11 +245,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/network-security': typeof AppNetworkSecurityRoute
-  '/research': typeof AppResearchRoute
-  '/security': typeof AppSecurityRoute
-  '/soc': typeof AppSocRoute
-  '/workspace': typeof AppWorkspaceRoute
   '/admin': typeof AppAdminRoute
   '/alerts': typeof AppAlertsRoute
   '/attack-timeline': typeof AppAttackTimelineRoute
@@ -235,14 +257,20 @@ export interface FileRoutesByTo {
   '/graph': typeof AppGraphRoute
   '/ingestion': typeof AppIngestionRoute
   '/network': typeof AppNetworkRoute
+  '/network-security': typeof AppNetworkSecurityRoute
   '/reports': typeof AppReportsRoute
+  '/research': typeof AppResearchRoute
+  '/security': typeof AppSecurityRoute
   '/settings': typeof AppSettingsRoute
+  '/soc': typeof AppSocRoute
+  '/workspace': typeof AppWorkspaceRoute
   '/world-model': typeof AppWorldModelRoute
-  '/api/alerts': typeof ApiAlertsRoute
   '/api/admin': typeof ApiAdminRoute
+  '/api/alerts': typeof ApiAlertsRoute
   '/api/datasets': typeof ApiDatasetsRoute
   '/api/demo': typeof ApiDemoRoute
   '/api/graph': typeof ApiGraphRoute
+  '/api/health': typeof ApiHealthRoute
   '/api/uploads': typeof ApiUploadsRouteWithChildren
   '/api/network/flows': typeof ApiNetworkFlowsRoute
   '/api/network/states': typeof ApiNetworkStatesRoute
@@ -254,11 +282,6 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/login': typeof LoginRoute
   '/_app/admin': typeof AppAdminRoute
-  '/_app/network-security': typeof AppNetworkSecurityRoute
-  '/_app/research': typeof AppResearchRoute
-  '/_app/security': typeof AppSecurityRoute
-  '/_app/soc': typeof AppSocRoute
-  '/_app/workspace': typeof AppWorkspaceRoute
   '/_app/alerts': typeof AppAlertsRoute
   '/_app/attack-timeline': typeof AppAttackTimelineRoute
   '/_app/copilot': typeof AppCopilotRoute
@@ -270,14 +293,20 @@ export interface FileRoutesById {
   '/_app/graph': typeof AppGraphRoute
   '/_app/ingestion': typeof AppIngestionRoute
   '/_app/network': typeof AppNetworkRoute
+  '/_app/network-security': typeof AppNetworkSecurityRoute
   '/_app/reports': typeof AppReportsRoute
+  '/_app/research': typeof AppResearchRoute
+  '/_app/security': typeof AppSecurityRoute
   '/_app/settings': typeof AppSettingsRoute
+  '/_app/soc': typeof AppSocRoute
+  '/_app/workspace': typeof AppWorkspaceRoute
   '/_app/world-model': typeof AppWorldModelRoute
-  '/api/alerts': typeof ApiAlertsRoute
   '/api/admin': typeof ApiAdminRoute
+  '/api/alerts': typeof ApiAlertsRoute
   '/api/datasets': typeof ApiDatasetsRoute
   '/api/demo': typeof ApiDemoRoute
   '/api/graph': typeof ApiGraphRoute
+  '/api/health': typeof ApiHealthRoute
   '/api/uploads': typeof ApiUploadsRouteWithChildren
   '/api/network/flows': typeof ApiNetworkFlowsRoute
   '/api/network/states': typeof ApiNetworkStatesRoute
@@ -288,11 +317,6 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/login'
-    | '/network-security'
-    | '/research'
-    | '/security'
-    | '/soc'
-    | '/workspace'
     | '/admin'
     | '/alerts'
     | '/attack-timeline'
@@ -305,14 +329,20 @@ export interface FileRouteTypes {
     | '/graph'
     | '/ingestion'
     | '/network'
+    | '/network-security'
     | '/reports'
+    | '/research'
+    | '/security'
     | '/settings'
+    | '/soc'
+    | '/workspace'
     | '/world-model'
-    | '/api/alerts'
     | '/api/admin'
+    | '/api/alerts'
     | '/api/datasets'
     | '/api/demo'
     | '/api/graph'
+    | '/api/health'
     | '/api/uploads'
     | '/api/network/flows'
     | '/api/network/states'
@@ -321,11 +351,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
-    | '/network-security'
-    | '/research'
-    | '/security'
-    | '/soc'
-    | '/workspace'
     | '/admin'
     | '/alerts'
     | '/attack-timeline'
@@ -338,14 +363,20 @@ export interface FileRouteTypes {
     | '/graph'
     | '/ingestion'
     | '/network'
+    | '/network-security'
     | '/reports'
+    | '/research'
+    | '/security'
     | '/settings'
+    | '/soc'
+    | '/workspace'
     | '/world-model'
-    | '/api/alerts'
     | '/api/admin'
+    | '/api/alerts'
     | '/api/datasets'
     | '/api/demo'
     | '/api/graph'
+    | '/api/health'
     | '/api/uploads'
     | '/api/network/flows'
     | '/api/network/states'
@@ -355,11 +386,6 @@ export interface FileRouteTypes {
     | '/'
     | '/_app'
     | '/login'
-    | '/_app/network-security'
-    | '/_app/research'
-    | '/_app/security'
-    | '/_app/soc'
-    | '/_app/workspace'
     | '/_app/admin'
     | '/_app/alerts'
     | '/_app/attack-timeline'
@@ -372,14 +398,20 @@ export interface FileRouteTypes {
     | '/_app/graph'
     | '/_app/ingestion'
     | '/_app/network'
+    | '/_app/network-security'
     | '/_app/reports'
+    | '/_app/research'
+    | '/_app/security'
     | '/_app/settings'
+    | '/_app/soc'
+    | '/_app/workspace'
     | '/_app/world-model'
-    | '/api/alerts'
     | '/api/admin'
+    | '/api/alerts'
     | '/api/datasets'
     | '/api/demo'
     | '/api/graph'
+    | '/api/health'
     | '/api/uploads'
     | '/api/network/flows'
     | '/api/network/states'
@@ -390,10 +422,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AppRoute: typeof AppRouteWithChildren
   LoginRoute: typeof LoginRoute
+  ApiAdminRoute: typeof ApiAdminRoute
   ApiAlertsRoute: typeof ApiAlertsRoute
   ApiDatasetsRoute: typeof ApiDatasetsRoute
   ApiDemoRoute: typeof ApiDemoRoute
   ApiGraphRoute: typeof ApiGraphRoute
+  ApiHealthRoute: typeof ApiHealthRoute
   ApiUploadsRoute: typeof ApiUploadsRouteWithChildren
   ApiNetworkFlowsRoute: typeof ApiNetworkFlowsRoute
   ApiNetworkStatesRoute: typeof ApiNetworkStatesRoute
@@ -429,11 +463,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppAdminRouteImport
       parentRoute: typeof AppRoute
     }
-    '/_app/network-security': { id: '/_app/network-security'; path: '/network-security'; fullPath: '/network-security'; preLoaderRoute: typeof AppNetworkSecurityRouteImport; parentRoute: typeof AppRoute }
-    '/_app/research': { id: '/_app/research'; path: '/research'; fullPath: '/research'; preLoaderRoute: typeof AppResearchRouteImport; parentRoute: typeof AppRoute }
-    '/_app/security': { id: '/_app/security'; path: '/security'; fullPath: '/security'; preLoaderRoute: typeof AppSecurityRouteImport; parentRoute: typeof AppRoute }
-    '/_app/soc': { id: '/_app/soc'; path: '/soc'; fullPath: '/soc'; preLoaderRoute: typeof AppSocRouteImport; parentRoute: typeof AppRoute }
-    '/_app/workspace': { id: '/_app/workspace'; path: '/workspace'; fullPath: '/workspace'; preLoaderRoute: typeof AppWorkspaceRouteImport; parentRoute: typeof AppRoute }
     '/_app/alerts': {
       id: '/_app/alerts'
       path: '/alerts'
@@ -511,11 +540,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppNetworkRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/network-security': {
+      id: '/_app/network-security'
+      path: '/network-security'
+      fullPath: '/network-security'
+      preLoaderRoute: typeof AppNetworkSecurityRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/reports': {
       id: '/_app/reports'
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof AppReportsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/research': {
+      id: '/_app/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof AppResearchRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/security': {
+      id: '/_app/security'
+      path: '/security'
+      fullPath: '/security'
+      preLoaderRoute: typeof AppSecurityRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/settings': {
@@ -525,6 +575,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/soc': {
+      id: '/_app/soc'
+      path: '/soc'
+      fullPath: '/soc'
+      preLoaderRoute: typeof AppSocRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/workspace': {
+      id: '/_app/workspace'
+      path: '/workspace'
+      fullPath: '/workspace'
+      preLoaderRoute: typeof AppWorkspaceRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/world-model': {
       id: '/_app/world-model'
       path: '/world-model'
@@ -532,18 +596,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppWorldModelRouteImport
       parentRoute: typeof AppRoute
     }
-    '/api/alerts': {
-      id: '/api/alerts'
-      path: '/api/alerts'
-      fullPath: '/api/alerts'
-      preLoaderRoute: typeof ApiAlertsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/admin': {
       id: '/api/admin'
       path: '/api/admin'
       fullPath: '/api/admin'
       preLoaderRoute: typeof ApiAdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/alerts': {
+      id: '/api/alerts'
+      path: '/api/alerts'
+      fullPath: '/api/alerts'
+      preLoaderRoute: typeof ApiAlertsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/datasets': {
@@ -565,6 +629,13 @@ declare module '@tanstack/react-router' {
       path: '/api/graph'
       fullPath: '/api/graph'
       preLoaderRoute: typeof ApiGraphRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/health': {
+      id: '/api/health'
+      path: '/api/health'
+      fullPath: '/api/health'
+      preLoaderRoute: typeof ApiHealthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/uploads': {
@@ -599,8 +670,8 @@ declare module '@tanstack/react-router' {
 }
 
 interface AppRouteChildren {
-  AppAlertsRoute: typeof AppAlertsRoute
   AppAdminRoute: typeof AppAdminRoute
+  AppAlertsRoute: typeof AppAlertsRoute
   AppAttackTimelineRoute: typeof AppAttackTimelineRoute
   AppCopilotRoute: typeof AppCopilotRoute
   AppDashboardRoute: typeof AppDashboardRoute
@@ -611,19 +682,19 @@ interface AppRouteChildren {
   AppGraphRoute: typeof AppGraphRoute
   AppIngestionRoute: typeof AppIngestionRoute
   AppNetworkRoute: typeof AppNetworkRoute
-  AppReportsRoute: typeof AppReportsRoute
-  AppSettingsRoute: typeof AppSettingsRoute
   AppNetworkSecurityRoute: typeof AppNetworkSecurityRoute
+  AppReportsRoute: typeof AppReportsRoute
   AppResearchRoute: typeof AppResearchRoute
   AppSecurityRoute: typeof AppSecurityRoute
+  AppSettingsRoute: typeof AppSettingsRoute
   AppSocRoute: typeof AppSocRoute
-  AppWorldModelRoute: typeof AppWorldModelRoute
   AppWorkspaceRoute: typeof AppWorkspaceRoute
+  AppWorldModelRoute: typeof AppWorldModelRoute
 }
 
 const AppRouteChildren: AppRouteChildren = {
-  AppAlertsRoute: AppAlertsRoute,
   AppAdminRoute: AppAdminRoute,
+  AppAlertsRoute: AppAlertsRoute,
   AppAttackTimelineRoute: AppAttackTimelineRoute,
   AppCopilotRoute: AppCopilotRoute,
   AppDashboardRoute: AppDashboardRoute,
@@ -634,14 +705,14 @@ const AppRouteChildren: AppRouteChildren = {
   AppGraphRoute: AppGraphRoute,
   AppIngestionRoute: AppIngestionRoute,
   AppNetworkRoute: AppNetworkRoute,
-  AppReportsRoute: AppReportsRoute,
-  AppSettingsRoute: AppSettingsRoute,
   AppNetworkSecurityRoute: AppNetworkSecurityRoute,
+  AppReportsRoute: AppReportsRoute,
   AppResearchRoute: AppResearchRoute,
   AppSecurityRoute: AppSecurityRoute,
+  AppSettingsRoute: AppSettingsRoute,
   AppSocRoute: AppSocRoute,
-  AppWorldModelRoute: AppWorldModelRoute,
   AppWorkspaceRoute: AppWorkspaceRoute,
+  AppWorldModelRoute: AppWorldModelRoute,
 }
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
@@ -662,11 +733,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AppRoute: AppRouteWithChildren,
   LoginRoute: LoginRoute,
-  ApiAlertsRoute: ApiAlertsRoute,
   ApiAdminRoute: ApiAdminRoute,
+  ApiAlertsRoute: ApiAlertsRoute,
   ApiDatasetsRoute: ApiDatasetsRoute,
   ApiDemoRoute: ApiDemoRoute,
   ApiGraphRoute: ApiGraphRoute,
+  ApiHealthRoute: ApiHealthRoute,
   ApiUploadsRoute: ApiUploadsRouteWithChildren,
   ApiNetworkFlowsRoute: ApiNetworkFlowsRoute,
   ApiNetworkStatesRoute: ApiNetworkStatesRoute,

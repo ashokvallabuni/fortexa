@@ -9,8 +9,6 @@
     "build:dev": "vite build --mode development",
     "test": "vitest run",
     "preview": "vite preview",
-    "backend:dev": ".venv\\Scripts\\python.exe -m uvicorn backend.main:app --reload --port 8000",
-    "backend:train": ".venv\\Scripts\\python.exe -c \"from backend.model import train_model; print(train_model())\"",
     "lint": "eslint .",
     "format": "prettier --write ."
   },

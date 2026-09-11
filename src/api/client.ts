@@ -1,15 +1,9 @@
-const configuredApiUrl = (import.meta.env.VITE_API_URL as string | undefined)?.trim();
-
-export const API_BASE_URL = configuredApiUrl?.replace(/\/$/, '') || '';
+/** API routes are served by the same TanStack server that owns Supabase access. */
+export const API_BASE_URL = '';
 
 type ApiErrorBody = { detail?: string; message?: string };
 
 async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
-  if (!API_BASE_URL) {
-    throw new Error(import.meta.env.DEV
-      ? 'Analytics API unavailable. Start FastAPI at http://localhost:8000 or set VITE_API_URL.'
-      : 'Analytics API unavailable. Set VITE_API_URL to the deployed Render backend URL.');
-  }
   let response: Response;
   try {
     response = await fetch(`${API_BASE_URL}${path}`, {
@@ -18,9 +12,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
     });
   } catch {
     throw new Error(
-      API_BASE_URL
-        ? `Analytics API unavailable at ${API_BASE_URL}`
-        : 'Analytics API unavailable. Set VITE_API_URL to the deployed FastAPI URL.',
+      'Supabase API unavailable. Check the application server and Supabase configuration.',
     );
   }
 

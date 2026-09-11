@@ -6,25 +6,24 @@ type HealthState = 'checking' | 'operational' | 'unavailable';
 
 interface HealthResponse {
   status: string;
-  dataset_available?: boolean;
-  csv_files?: number;
+  service?: string;
 }
 
 export function ApiHealthCard() {
   const [state, setState] = useState<HealthState>('checking');
-  const [message, setMessage] = useState('Checking analytics service...');
+  const [message, setMessage] = useState('Checking Supabase services...');
   const [lastChecked, setLastChecked] = useState<Date | null>(null);
 
   const checkHealth = async () => {
     setState('checking');
-    setMessage('Checking analytics service...');
+    setMessage('Checking Supabase services...');
     try {
       const health = await apiClient.get<HealthResponse>('/api/health');
       setState('operational');
-      setMessage(health.dataset_available ? `${health.csv_files ?? 0} dataset files ready` : 'API reachable; dataset unavailable');
+      setMessage(health.status === 'ok' ? 'Supabase database and storage configured' : 'Supabase configuration incomplete');
     } catch (error) {
       setState('unavailable');
-      setMessage(error instanceof Error ? error.message : 'Analytics API unavailable');
+      setMessage(error instanceof Error ? error.message : 'Supabase API unavailable');
     } finally {
       setLastChecked(new Date());
     }
@@ -49,14 +48,14 @@ export function ApiHealthCard() {
           {isOperational ? <CheckCircle2 className="size-4" /> : state === 'unavailable' ? <XCircle className="size-4" /> : <Activity className="size-4 animate-pulse" />}
         </span>
         <div className="min-w-0">
-          <p className="text-xs font-semibold text-[var(--foreground)]">Analytics API</p>
+          <p className="text-xs font-semibold text-[var(--foreground)]">Supabase backend</p>
           <p className={`truncate text-xs ${state === 'unavailable' ? 'text-red-400' : 'text-[var(--muted-foreground)]'}`}>{message}</p>
         </div>
       </div>
       <div className="flex items-center gap-3">
         <span className="hidden text-[10px] text-[var(--muted-foreground)] lg:inline">{API_BASE_URL}</span>
         {lastChecked && <span className="hidden text-[10px] text-[var(--muted-foreground)] sm:inline">Checked {lastChecked.toLocaleTimeString()}</span>}
-        <button
+          <button
           type="button"
           onClick={() => void checkHealth()}
           disabled={isChecking}
