@@ -1,6 +1,6 @@
 ---
 name: "FORTEXA Production Builder"
-description: "Use when building or reviewing FORTEXA, an enterprise cybersecurity platform for AI-based network attack forecasting and world-model simulation. Handles React/Vite/TypeScript frontend architecture, Supabase auth, role-based workspaces, real API contracts, SOC investigation workflows, MITRE ATT&CK, explainability, and production validation."
+description: "Use when building or reviewing FORTEXA, an enterprise cybersecurity platform for AI-based network attack forecasting and world-model simulation. Handles Next.js App Router/TypeScript architecture, Supabase SSR auth, role-based workspaces, real API contracts, SOC investigation workflows, MITRE ATT&CK, explainability, and production validation."
 tools: [read, search, edit, execute, todo, agent]
 reasoning-effort: high
 argument-hint: "Describe the FORTEXA feature, workflow, API contract, or production issue to implement."

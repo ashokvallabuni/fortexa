@@ -4,11 +4,11 @@
 
 Copy `.env.example` to the deployment environment and set:
 
-- `SUPABASE_URL` and `VITE_SUPABASE_URL`
-- `SUPABASE_PUBLISHABLE_KEY` or `SUPABASE_ANON_KEY` for browser requests
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY` for browser requests and cookie-backed server requests
 - `SUPABASE_SERVICE_ROLE_KEY` only in the server/runtime environment
 
-Never expose `SUPABASE_SERVICE_ROLE_KEY` through `VITE_*` variables or client code.
+Never expose `SUPABASE_SERVICE_ROLE_KEY` through public variables or client code.
 
 ## Database migrations
 
@@ -26,13 +26,13 @@ The migrations create the organization, membership, role-permission, audit, inge
 
 Enable Email provider in Supabase Authentication. Configure the Site URL and redirect URLs for:
 
-- `http://localhost:5173/login`
-- `http://localhost:5173/workspace`
+- `http://localhost:3000/login`
+- `http://localhost:3000/workspace`
 - the production `/login` and `/workspace` URLs
 
 Google OAuth is optional. When enabled, configure the Google client ID/secret in Supabase and add the production callback URL shown by Supabase.
 
-FORTEXA uses one browser Supabase client with persistent sessions. Credentials remain in Supabase Auth; application tables never store plaintext passwords.
+FORTEXA uses `@supabase/ssr` browser and server clients with cookie-backed sessions. Credentials remain in Supabase Auth; application tables never store plaintext passwords.
 
 ## First administrator bootstrap
 
@@ -75,7 +75,7 @@ bun run dev
 ## Production deployment
 
 1. Configure server-only Supabase variables in the hosting provider.
-2. Configure browser-safe `VITE_SUPABASE_*` variables for project `amrzlzjxwonyzuhncdfk`.
+2. Configure `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` for project `amrzlzjxwonyzuhncdfk`.
 3. Run `supabase db push` against the target project.
 4. Enable the Auth providers and redirect URLs.
 5. Verify the private Storage bucket exists.
