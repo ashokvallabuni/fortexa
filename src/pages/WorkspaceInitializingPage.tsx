@@ -1,0 +1,5 @@
+import { LoaderCircle, Shield } from 'lucide-react';
+
+export function WorkspaceInitializingPage() {
+  return <main className="flex min-h-screen items-center justify-center bg-[#eef7fc] px-6 text-[#102a43]"><div className="w-full max-w-sm border border-[#c9e1ef] bg-white p-8 text-center shadow-sm"><div className="mx-auto flex size-10 items-center justify-center bg-[#087ea4] text-white"><Shield className="size-5" /></div><p className="mt-6 text-xs font-semibold uppercase tracking-[.2em] text-[#087ea4]">FORTEXA</p><h1 className="mt-3 text-lg font-semibold">Initializing FORTEXA Security Workspace...</h1><LoaderCircle className="mx-auto mt-6 size-5 animate-spin text-[#087ea4]" /><p className="mt-4 text-xs text-slate-500">Loading your profile, organization access and permissions.</p></div></main>;
+}

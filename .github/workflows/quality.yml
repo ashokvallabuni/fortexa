@@ -1,0 +1,30 @@
+name: Quality
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run lint
+      - name: Run tests
+        shell: bash
+        run: |
+          if bun pm pkg get scripts.test | grep -qv 'null'; then
+            bun test
+          else
+            echo 'No test script is configured; build and lint remain required.'
+          fi
+      - run: bun run build

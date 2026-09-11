@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: net-state-loom
+    runtime: python
+    rootDir: .
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: CIC_DATASET_DIR
+        value: /data/CIC-IDS2018
+      - key: CIC_CACHE_DIR
+        value: /data/cache
+      - key: CIC_CHUNK_SIZE
+        value: "50000"
+      - key: CIC_TRAINING_ROWS
+        value: "200000"
+      - key: FRONTEND_URL
+        value: https://net-state-loom.vercel.app
+    disk:
+      name: cic-ids2018-data
+      mountPath: /data
+      sizeGB: 4
