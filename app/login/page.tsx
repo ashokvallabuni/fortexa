@@ -4,6 +4,7 @@ import { FormEvent, Suspense, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Chrome, LockKeyhole, Shield } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
+import { isPrimarySuperAdmin, normalizeEmail } from '@/utils/auth';
 
 export default function LoginPage() {
   return (
@@ -21,16 +22,25 @@ function LoginForm() {
   const [error, setError] = useState(params.get('error'));
   const [busy, setBusy] = useState(false);
 
-  async function checkAccess(email: string) {
+  async function checkAccess(email: string | null) {
+    if (!email) {
+      router.push('/login?error=missing_identity');
+      return false;
+    }
     const supabase = createClient();
-    const { data: req } = await supabase
+    const { data: req, error } = await supabase
       .from('access_requests')
       .select('status')
       .eq('email', email)
       .order('created_at', { ascending: false })
       .limit(1)
-      .single();
+      .maybeSingle();
 
+    if (error) {
+      setError('Unable to verify access request status.');
+      setBusy(false);
+      return false;
+    }
     if (!req) {
       router.push('/request-access');
       return false;
@@ -60,8 +70,13 @@ function LoginForm() {
       return;
     }
 
-    if (data.user?.email) {
-      const hasAccess = await checkAccess(data.user.email);
+    const authenticatedEmail = normalizeEmail(data.user?.email);
+    if (isPrimarySuperAdmin(authenticatedEmail)) {
+      window.location.assign('/workspace');
+      return;
+    }
+    if (authenticatedEmail) {
+      const hasAccess = await checkAccess(authenticatedEmail);
       if (hasAccess) {
         window.location.assign('/workspace');
       }

@@ -1,7 +1,18 @@
+import { redirect } from 'next/navigation';
+import { createClient } from '@/utils/supabase/server';
 import { Shield, Clock } from 'lucide-react';
 import Link from 'next/link';
+import { isPrimarySuperAdmin, normalizeEmail } from '@/utils/auth';
 
-export default function PendingPage() {
+export default async function PendingPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  const email = normalizeEmail(user?.email ?? null);
+
+  if (user && isPrimarySuperAdmin(email)) {
+    redirect('/admin/access-requests');
+  }
+
   return (
     <main className="flex min-h-screen items-center justify-center px-6">
       <section className="w-full max-w-md border border-[var(--border)] bg-[var(--surface)] p-8 text-center">
@@ -19,3 +30,4 @@ export default function PendingPage() {
     </main>
   );
 }
+

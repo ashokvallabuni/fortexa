@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react';
 import { Shield, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
+import { PRIMARY_SUPER_ADMIN_EMAIL } from '@/utils/auth';
 
 export default function RequestAccessPage() {
   const [busy, setBusy] = useState(false);
@@ -28,7 +29,8 @@ export default function RequestAccessPage() {
         full_name: formData.full_name,
         email: formData.email,
         requested_role: formData.requested_role,
-        reason: formData.reason
+        reason: formData.reason,
+        reviewer_email: PRIMARY_SUPER_ADMIN_EMAIL,
       }
     ]);
 

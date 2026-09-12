@@ -1,13 +1,16 @@
 {
-  "/api/v1/access-requests/[id]/approve/route": "app/api/v1/access-requests/[id]/approve/route.js",
-  "/auth/callback/route": "app/auth/callback/route.js",
-  "/api/v1/access-requests/[id]/reject/route": "app/api/v1/access-requests/[id]/reject/route.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/admin/users/page": "app/admin/users/page.js",
+  "/api/admin/access-requests/[id]/approve/route": "app/api/admin/access-requests/[id]/approve/route.js",
+  "/api/admin/access-requests/[id]/reject/route": "app/api/admin/access-requests/[id]/reject/route.js",
+  "/auth/callback/route": "app/auth/callback/route.js",
+  "/api/admin/access-requests/route": "app/api/admin/access-requests/route.js",
+  "/api/health/route": "app/api/health/route.js",
   "/admin/access-requests/page": "app/admin/access-requests/page.js",
-  "/page": "app/page.js",
-  "/request-access/page": "app/request-access/page.js",
+  "/admin/users/page": "app/admin/users/page.js",
+  "/pending/page": "app/pending/page.js",
+  "/rejected/page": "app/rejected/page.js",
   "/workspace/page": "app/workspace/page.js",
+  "/request-access/page": "app/request-access/page.js",
   "/login/page": "app/login/page.js",
-  "/api/health/route": "app/api/health/route.js"
+  "/page": "app/page.js"
 }

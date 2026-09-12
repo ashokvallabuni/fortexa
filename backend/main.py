@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Depends, HTTPException, Body
 from fastapi.middleware.cors import CORSMiddleware
-from auth import supabase, get_current_user, require_super_admin
+from auth import supabase, get_current_user, require_super_admin, PRIMARY_SUPER_ADMIN_EMAIL
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
@@ -28,7 +28,8 @@ def submit_access_request(req: AccessRequest):
         "email": req.email,
         "requested_role": req.requested_role,
         "reason": req.reason,
-        "status": "PENDING"
+        "status": "PENDING",
+        "reviewer_email": PRIMARY_SUPER_ADMIN_EMAIL,
     }).execute()
     
     if res.data:
