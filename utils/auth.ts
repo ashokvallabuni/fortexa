@@ -21,4 +21,18 @@ export function isPrimarySuperAdmin(email: string | undefined | null): boolean {
   return normalizeEmail(email) === PRIMARY_SUPER_ADMIN_EMAIL;
 }
 
+export function accessRequestRedirect(status: string | null | undefined, isAdmin: boolean) {
+  if (isAdmin) return '/admin/access-requests';
+  switch (status) {
+    case 'APPROVED':
+      return '/workspace';
+    case 'PENDING':
+      return '/pending';
+    case 'REJECTED':
+      return '/rejected';
+    default:
+      return '/request-access';
+  }
+}
+
 export const PLATFORM_ORGANIZATION_SLUG = 'fortexa-platform';
