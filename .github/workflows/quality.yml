@@ -22,9 +22,9 @@ jobs:
       - name: Run tests
         shell: bash
         run: |
-          if bun pm pkg get scripts.test | grep -qv 'null'; then
+          if [ -n "$(find . -type f \( -name '*.test.ts' -o -name '*.test.tsx' -o -name '*.spec.ts' -o -name '*.spec.tsx' \) -not -path './.next/*' -not -path './node_modules/*' -print -quit)" ]; then
             bun test
           else
-            echo 'No test script is configured; build and lint remain required.'
+            echo 'No tests specified yet.'
           fi
       - run: bun run build

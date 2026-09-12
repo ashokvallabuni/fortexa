@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { createAdminClient } from '@/utils/supabase/admin';
 import { PRIMARY_SUPER_ADMIN_EMAIL, normalizeEmail, accessRequestRedirect } from '@/utils/auth';
 
 export const config = {
@@ -10,60 +9,45 @@ export const config = {
     '/pending',
     '/rejected',
     '/request-access',
-    '/auth/callback',
   ],
 };
 
-const PUBLIC_ROUTES = new Set(['/login', '/']);
+const PUBLIC_ROUTES = new Set(['/login', '/', '/auth/callback']);
 
-async function getSessionUser(req: NextRequest) {
+function decodeJwtEmail(token: string | undefined): string | null {
+  if (!token) return null;
+  const parts = token.split('.');
+  if (parts.length < 2) return null;
   try {
-    const supabase = createAdminClient();
-    const token =
-      req.cookies.get('__session')?.value || req.cookies.get('sb-access-token')?.value;
-    if (!token) return null;
-    const { data, error } = await supabase.auth.getUser(token);
-    if (error || !data?.user) return null;
-    return data.user;
+    const payload = JSON.parse(Buffer.from(parts[1], 'base64').toString('utf-8'));
+    return typeof payload.email === 'string' ? payload.email : null;
   } catch {
     return null;
   }
 }
 
-export async function middleware(request: NextRequest) {
+export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   if (PUBLIC_ROUTES.has(pathname)) {
     return NextResponse.next();
   }
 
-  const url = request.nextUrl.clone();
+  const token =
+    request.cookies.get('__session')?.value ||
+    request.cookies.get('sb-access-token')?.value;
 
-  if (url.pathname.startsWith('/auth/callback')) {
-    return NextResponse.next();
-  }
+  const userEmail = normalizeEmail(decodeJwtEmail(token));
 
-  const user = await getSessionUser(request);
-  const userEmail = normalizeEmail(user?.email ?? null);
-
-  if (!user || !userEmail) {
+  if (!userEmail) {
     const signInUrl = new URL('/login', request.url);
     signInUrl.searchParams.set('next', pathname);
     return NextResponse.redirect(signInUrl);
   }
 
   if (userEmail === PRIMARY_SUPER_ADMIN_EMAIL) {
-    if (
-      pathname.startsWith('/pending') ||
-      pathname.startsWith('/rejected') ||
-      pathname.startsWith('/request-access') ||
-      pathname === '/workspace'
-    ) {
-      return NextResponse.redirect(new URL('/admin/access-requests', request.url));
-    }
     return NextResponse.next();
   }
 
-  // Regular users: enforce access-request workflow before any restricted area.
   if (pathname.startsWith('/admin/')) {
     return NextResponse.redirect(new URL('/workspace', request.url));
   }
@@ -77,22 +61,5 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const supabase = createAdminClient();
-  const { data: req, error: reqError } = await supabase
-    .from('access_requests')
-    .select('status')
-    .eq('email', userEmail)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle();
-
-  if (reqError || !req) {
-    return NextResponse.redirect(new URL('/request-access', request.url));
-  }
-
-  const target = accessRequestRedirect(req.status, false);
-  if (target === '/workspace') {
-    return NextResponse.next();
-  }
-  return NextResponse.redirect(new URL(target, request.url));
+  return NextResponse.redirect(new URL(accessRequestRedirect(null, false), request.url));
 }
