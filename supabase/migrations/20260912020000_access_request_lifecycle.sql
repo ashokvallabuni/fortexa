@@ -21,10 +21,16 @@ ALTER TABLE public.access_requests
   CHECK (status IN ('PENDING', 'APPROVED', 'REJECTED', 'CANCELLED'));
 
 -- Default reviewer target remains the primary Super Admin.
+-- Drop dependent objects first
+DROP POLICY IF EXISTS "access_requests_own_read" ON public.access_requests;
+DROP POLICY IF EXISTS "access_requests_primary_admin_read" ON public.access_requests;
+DROP TRIGGER IF EXISTS set_access_request_reviewer ON public.access_requests;
+DROP FUNCTION IF EXISTS public.assign_access_request_reviewer();
+
 ALTER TABLE public.access_requests
-  ALTER COLUMN reviewer_email DROP IF EXISTS;
+  DROP COLUMN IF EXISTS reviewer_email;
 ALTER TABLE public.access_requests
-  ALTER COLUMN reviewer_email SET DEFAULT 'ashokvallabhuni28@gmail.com';
+  ADD COLUMN reviewer_email TEXT NOT NULL DEFAULT 'ashokvallabhuni28@gmail.com';
 
 CREATE INDEX IF NOT EXISTS idx_access_requests_reviewer_status
   ON public.access_requests (reviewer_email, status);
