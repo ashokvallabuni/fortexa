@@ -17,20 +17,7 @@ async function authorizePrimaryAdmin() {
     return { user: null, error: NextResponse.json({ error: 'Forbidden: Super Admin required' }, { status: 403 }) };
   }
 
-  const email = normalizeEmail(user.email);
-  const adminClient = createAdminClient();
-  const { data: roleData, error: roleError } = await adminClient
-    .from('user_roles')
-    .select('role')
-    .eq('user_id', user.id)
-    .eq('role', SUPER_ADMIN_ROLE)
-    .maybeSingle();
-
-  if (roleError || !roleData) {
-    return { user: null, error: NextResponse.json({ error: 'Forbidden: Super Admin required' }, { status: 403 }) };
-  }
-
-  return { user: { ...user, email: email as string }, error: null };
+  return { user, error: null };
 }
 
 export async function GET() {

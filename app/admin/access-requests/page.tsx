@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 import { isPrimarySuperAdmin, normalizeEmail } from '@/utils/auth';
+import { ensurePrimarySuperAdmin } from '@/utils/supabase/primary-super-admin';
 import AccessRequestsDashboard from './_dashboard';
 
 export default async function AdminAccessRequestsPage() {
@@ -16,13 +17,9 @@ export default async function AdminAccessRequestsPage() {
     redirect('/workspace');
   }
 
-  const { data: canAccess, error: adminError } = await supabase.rpc('can_access_admin', {
-    _user_id: user.id,
-    _permission_code: 'admin.console',
-  });
-
-  if (adminError || !canAccess) {
-    redirect('/login?error=super_admin_required');
+  const result = await ensurePrimarySuperAdmin(user);
+  if (!result.ok) {
+    console.warn('Primary Super Admin provisioning failed (non-blocking):', result.error);
   }
 
   return <AccessRequestsDashboard />;

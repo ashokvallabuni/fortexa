@@ -14,11 +14,9 @@ export default async function WorkspacePage() {
   const email = normalizeEmail(user.email);
 
   if (isPrimarySuperAdmin(email)) {
-    try {
-      await ensurePrimarySuperAdmin(user);
-    } catch (provisioningError: unknown) {
-      console.error('Primary Super Admin provisioning failed:', provisioningError);
-      redirect('/login?error=super_admin_setup_failed');
+    const result = await ensurePrimarySuperAdmin(user);
+    if (!result.ok) {
+      console.warn('Primary Super Admin provisioning failed (non-blocking):', result.error);
     }
     redirect('/admin/access-requests');
   }

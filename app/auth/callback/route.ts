@@ -38,11 +38,9 @@ export async function GET(request: Request) {
     const email = normalizeEmail(user.email);
 
     if (email === PRIMARY_SUPER_ADMIN_EMAIL) {
-      try {
-        await ensurePrimarySuperAdmin(user);
-      } catch (provisioningError: unknown) {
-        console.error('Primary Super Admin provisioning failed:', provisioningError);
-        return loginRedirect(request, 'super_admin_setup_failed');
+      const result = await ensurePrimarySuperAdmin(user);
+      if (!result.ok) {
+        console.warn('Primary Super Admin login continued with provisioning error:', result.error);
       }
       return NextResponse.redirect(new URL('/admin/access-requests', request.url));
     }

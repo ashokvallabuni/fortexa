@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createAdminClient } from '@/utils/supabase/admin';
-import { SUPER_ADMIN_ROLE, ALLOWED_REQUEST_ROLES } from '@/utils/auth';
+import { ALLOWED_REQUEST_ROLES, PRIMARY_SUPER_ADMIN_EMAIL } from '@/utils/auth';
 import { isValidUUID } from '@/utils/uuid';
 import type { NextRequest } from 'next/server';
 
@@ -16,21 +16,11 @@ async function authorize(req: NextRequest) {
     return null;
   }
 
-  if (
-    typeof user.email !== 'string' ||
-    user.email.trim().toLowerCase() !== 'ashokvallabhuni28@gmail.com'
-  ) {
+  const email = typeof user.email === 'string' ? user.email.trim().toLowerCase() : null;
+  if (email !== PRIMARY_SUPER_ADMIN_EMAIL) {
     return null;
   }
 
-  const { data: roleData, error: roleError } = await supabase
-    .from('user_roles')
-    .select('role')
-    .eq('user_id', user.id)
-    .eq('role', SUPER_ADMIN_ROLE)
-    .maybeSingle();
-
-  if (roleError || !roleData) return null;
   return user;
 }
 
