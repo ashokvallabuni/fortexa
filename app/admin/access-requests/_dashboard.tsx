@@ -41,7 +41,7 @@ export default function AccessRequestsDashboard() {
       loadedRequests.forEach((req) => {
         initialSelections[req.id] = {
           orgId: loadedOrgs[0]?.id || '',
-          role: req.requested_role || 'analyst',
+          role: req.requested_role || 'SOC_ANALYST',
         };
       });
       setSelections(initialSelections);
@@ -156,10 +156,9 @@ export default function AccessRequestsDashboard() {
                         value={selections[req.id]?.role || ''}
                         onChange={(e) => setSelections({ ...selections, [req.id]: { ...selections[req.id], role: e.target.value } })}
                       >
-                        <option value="analyst">SOC / Security Analyst</option>
-                        <option value="admin">Network Administrator</option>
-                        <option value="researcher">Security Researcher</option>
-                        <option value="viewer">Viewer</option>
+                        <option value="SOC_ANALYST">SOC / Security Analyst</option>
+                        <option value="NETWORK_SECURITY_ADMIN">Network Administrator</option>
+                        <option value="RESEARCHER">Security Researcher</option>
                       </select>
                     </label>
                   </div>

@@ -1,22 +1,45 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
-import { Shield, ArrowRight } from 'lucide-react';
+import { FormEvent, useState, useEffect } from 'react';
+import { Shield, ArrowRight, Building } from 'lucide-react';
 import Link from 'next/link';
 import { createClient } from '@/utils/supabase/client';
 import { PRIMARY_SUPER_ADMIN_EMAIL } from '@/utils/auth';
+
+type Organization = { id: string; name: string };
 
 export default function RequestAccessPage() {
   const [busy, setBusy] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [organizations, setOrganizations] = useState<Organization[]>([]);
+  const [orgLoading, setOrgLoading] = useState(true);
 
   const [formData, setFormData] = useState({
     full_name: '',
+    username: '',
     email: '',
-    requested_role: 'analyst',
+    organization_id: '',
+    requested_role: 'SOC_ANALYST',
     reason: ''
   });
+
+  useEffect(() => {
+    async function loadOrganizations() {
+      try {
+        const supabase = createClient();
+        const { data, error } = await supabase.from('organizations').select('id, name');
+        if (!error && data) {
+          setOrganizations(data);
+        }
+      } catch (err) {
+        console.error('Failed to load organizations:', err);
+      } finally {
+        setOrgLoading(false);
+      }
+    }
+    loadOrganizations();
+  }, []);
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,7 +50,9 @@ export default function RequestAccessPage() {
     const { error: dbError } = await supabase.from('access_requests').insert([
       {
         full_name: formData.full_name,
+        username: formData.username,
         email: formData.email,
+        organization_id: formData.organization_id || null,
         requested_role: formData.requested_role,
         reason: formData.reason,
         reviewer_email: PRIMARY_SUPER_ADMIN_EMAIL,
@@ -93,6 +118,17 @@ export default function RequestAccessPage() {
             />
           </label>
           <label className="block text-sm">
+            Username
+            <input 
+              className="mt-2 h-11 w-full border border-[var(--border)] bg-black/20 px-3 outline-none focus:border-[var(--red)]" 
+              type="text" 
+              required 
+              value={formData.username} 
+              onChange={e => setFormData({ ...formData, username: e.target.value })} 
+              placeholder="Preferred username"
+            />
+          </label>
+          <label className="block text-sm">
             Business Email
             <input 
               className="mt-2 h-11 w-full border border-[var(--border)] bg-black/20 px-3 outline-none focus:border-[var(--red)]" 
@@ -103,15 +139,30 @@ export default function RequestAccessPage() {
             />
           </label>
           <label className="block text-sm">
+            Organization
+            <select 
+              className="mt-2 h-11 w-full border border-[var(--border)] bg-black/20 px-3 outline-none focus:border-[var(--red)]"
+              value={formData.organization_id}
+              onChange={e => setFormData({ ...formData, organization_id: e.target.value })}
+              disabled={orgLoading}
+            >
+              <option value="" disabled>Select an organization...</option>
+              {organizations.map((org) => (
+                <option key={org.id} value={org.id}>{org.name}</option>
+              ))}
+              {orgLoading && <option value="" disabled>Loading...</option>}
+            </select>
+          </label>
+          <label className="block text-sm">
             Requested Role
             <select 
               className="mt-2 h-11 w-full border border-[var(--border)] bg-black/20 px-3 outline-none focus:border-[var(--red)]"
               value={formData.requested_role}
               onChange={e => setFormData({ ...formData, requested_role: e.target.value })}
             >
-              <option value="analyst">SOC / Security Analyst</option>
-              <option value="admin">Network Administrator</option>
-              <option value="researcher">Security Researcher</option>
+              <option value="SOC_ANALYST">SOC / Security Analyst</option>
+              <option value="NETWORK_SECURITY_ADMIN">Network Administrator</option>
+              <option value="RESEARCHER">Security Researcher</option>
             </select>
           </label>
           <label className="block text-sm">

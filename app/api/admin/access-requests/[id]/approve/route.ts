@@ -94,6 +94,7 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
       id: targetUserId,
       email: requestData.email,
       display_name: requestData.full_name,
+      status: 'ACTIVE',
     });
     if (profileError) {
       return NextResponse.json({ error: `Failed to create profile: ${profileError.message}` }, { status: 500 });
@@ -132,10 +133,13 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
     const { error: auditError } = await adminClient.from('audit_logs').insert({
       actor_id: user.id,
-      action: 'APPROVE_ACCESS_REQUEST',
+      action: 'ACCESS_REQUEST_APPROVED',
       resource_type: 'user',
       resource_id: targetUserId,
+      target_user_id: targetUserId,
+      organization_id: organizationId,
       detail: { email: requestData.email, role, organization_id: organizationId },
+      metadata: { email: requestData.email, role, organization_id: organizationId },
     });
     if (auditError) {
       console.error('Audit log write failed:', auditError.message);

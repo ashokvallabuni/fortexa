@@ -60,10 +60,11 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
     const { error: auditError } = await adminClient.from('audit_logs').insert({
       actor_id: user.id,
-      action: 'REJECT_ACCESS_REQUEST',
+      action: 'ACCESS_REQUEST_REJECTED',
       resource_type: 'access_request',
       resource_id: id,
       detail: { reason },
+      metadata: { reason },
     });
     if (auditError) {
       console.error('Audit log write failed:', auditError.message);

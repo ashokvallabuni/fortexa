@@ -9,7 +9,7 @@ export const SUPER_ADMIN_METADATA = {
   is_super_admin: true,
 };
 
-export const ALLOWED_REQUEST_ROLES = ['analyst', 'admin', 'researcher', 'viewer'] as const;
+export const ALLOWED_REQUEST_ROLES = ['SOC_ANALYST', 'NETWORK_SECURITY_ADMIN', 'RESEARCHER'] as const;
 
 export function normalizeEmail(email: string | undefined | null): string | null {
   if (!email) return null;

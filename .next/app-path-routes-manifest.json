@@ -1,0 +1,22 @@
+{
+  "/api/admin/access-requests/[id]/approve/route": "/api/admin/access-requests/[id]/approve",
+  "/_not-found/page": "/_not-found",
+  "/api/admin/access-requests/[id]/reject/route": "/api/admin/access-requests/[id]/reject",
+  "/api/admin/users/[id]/disable/route": "/api/admin/users/[id]/disable",
+  "/api/admin/users/[id]/organization/route": "/api/admin/users/[id]/organization",
+  "/api/admin/users/[id]/enable/route": "/api/admin/users/[id]/enable",
+  "/auth/callback/route": "/auth/callback",
+  "/api/admin/users/[id]/role/route": "/api/admin/users/[id]/role",
+  "/api/admin/access-requests/route": "/api/admin/access-requests",
+  "/api/health/route": "/api/health",
+  "/admin/access-requests/page": "/admin/access-requests",
+  "/admin/users/page": "/admin/users",
+  "/forgot-password/page": "/forgot-password",
+  "/page": "/",
+  "/request-access/page": "/request-access",
+  "/pending/page": "/pending",
+  "/rejected/page": "/rejected",
+  "/reset-password/page": "/reset-password",
+  "/workspace/page": "/workspace",
+  "/login/page": "/login"
+}
