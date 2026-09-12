@@ -1,0 +1,13 @@
+{
+  "/api/v1/access-requests/[id]/approve/route": "/api/v1/access-requests/[id]/approve",
+  "/auth/callback/route": "/auth/callback",
+  "/api/v1/access-requests/[id]/reject/route": "/api/v1/access-requests/[id]/reject",
+  "/_not-found/page": "/_not-found",
+  "/admin/users/page": "/admin/users",
+  "/admin/access-requests/page": "/admin/access-requests",
+  "/page": "/",
+  "/request-access/page": "/request-access",
+  "/workspace/page": "/workspace",
+  "/login/page": "/login",
+  "/api/health/route": "/api/health"
+}
