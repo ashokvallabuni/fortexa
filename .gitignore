@@ -47,3 +47,6 @@ data/downloads/
 *.njsproj
 *.sln
 *.sw?
+
+.next/
+.vercel/
